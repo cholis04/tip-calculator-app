@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/space-mono": "^4.5.2",
     "@types/styled-components": "^5.1.24",
     "next": "12.1.0",
     "react": "17.0.2",
