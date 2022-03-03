@@ -1,5 +1,18 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Avoid accidental upload of the Sketch and Figma design files
+#####################################################
+## Please do not remove lines 7 and 8 - thanks! 🙂 ##
+#####################################################
+*.sketch
+*.fig
+
+# Avoid accidental XD upload if you convert the design file
+###############################################
+## Please do not remove line 14 - thanks! 🙂 ##
+###############################################
+*.xd
+
 # dependencies
 /node_modules
 /.pnp
@@ -36,3 +49,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# prettierignore
+.prettierignore
