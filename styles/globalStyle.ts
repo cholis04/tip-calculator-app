@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Space Mono";
+    background-color:hsl(185, 41%, 84%);
   }
   img {
     display: block;
