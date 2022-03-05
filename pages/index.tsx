@@ -13,6 +13,27 @@ const MainStyled = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+`;
+
+const HeadingLogo = styled.h1`
+  margin: 0 auto;
+  color: hsl(183, 100%, 15%);
+  text-align: center;
+  font-size: 1.6em;
+  letter-spacing: 0.5em;
+`;
+
+const BoxStyled = styled.div`
+  margin: 0 auto;
+  margin-top: 6rem;
+  padding: 1.9em;
+  width: 100%;
+  max-width: 920px;
+  min-height: 360px;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 25px;
+  box-shadow: 0 5px 25px -6px rgba(0, 0, 0, 0.2);
 `;
 
 const Home: NextPage = () => {
@@ -23,7 +44,12 @@ const Home: NextPage = () => {
       </Head>
 
       <MainStyled>
-        <h1>Hello World</h1>
+        <HeadingLogo>
+          SPLI
+          <br />
+          TTER
+        </HeadingLogo>
+        <BoxStyled>This is Box styled</BoxStyled>
       </MainStyled>
     </MainLayout>
   );
