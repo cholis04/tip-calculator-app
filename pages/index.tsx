@@ -1,8 +1,15 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
+import { useState } from 'react';
 
+import type { NextPage } from 'next';
+
+import Head from 'next/head';
 import styled from 'styled-components';
+
 import MainLayout from '../layouts/MainLayout';
+import HeadingOne from '../components/heading';
+import TextInputGroup from '../components/TextInputGroup';
+
+import RadioInputGroup from '../components/RadioInputGroup';
 
 // Styles
 const MainStyled = styled.main`
@@ -14,14 +21,6 @@ const MainStyled = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-
-const HeadingLogo = styled.h1`
-  margin: 0 auto;
-  color: hsl(183, 100%, 15%);
-  text-align: center;
-  font-size: 1.6em;
-  letter-spacing: 0.5em;
 `;
 
 const BoxStyled = styled.div`
@@ -36,7 +35,30 @@ const BoxStyled = styled.div`
   box-shadow: 0 5px 25px -6px rgba(0, 0, 0, 0.2);
 `;
 
+// Main Component
 const Home: NextPage = () => {
+  const [bill, setBill] = useState(0);
+  const [numpeople, setNumpeople] = useState(0);
+  const [tip, setTip] = useState(0);
+
+  const inputChange = (prop: string, value: number) => {
+    switch (prop) {
+      case 'bill':
+        return setBill(value);
+      case 'numpeople':
+        return setNumpeople(value);
+      case 'tip':
+        return setTip(value);
+    }
+  };
+
+  // On Reset Form
+  const resetForm = () => {
+    setBill(0);
+    setNumpeople(0);
+    setTip(0);
+  };
+
   return (
     <MainLayout>
       <Head>
@@ -44,12 +66,37 @@ const Home: NextPage = () => {
       </Head>
 
       <MainStyled>
-        <HeadingLogo>
-          SPLI
-          <br />
-          TTER
-        </HeadingLogo>
-        <BoxStyled>This is Box styled</BoxStyled>
+        <HeadingOne />
+        <BoxStyled>
+          <form name="calculator" onReset={resetForm}>
+            <div className="input-form">
+              <TextInputGroup
+                id="bill"
+                labelText="Bill"
+                placeholder="0"
+                minimum={1}
+                type="number"
+                icon="dollar"
+                inputChange={inputChange}
+              />
+              <RadioInputGroup />
+              <TextInputGroup
+                id="numpeople"
+                labelText="Number Of People"
+                placeholder="0"
+                type="number"
+                minimum={1}
+                icon="person"
+                inputChange={inputChange}
+              />
+            </div>
+            <div className="preview-data">
+              <p>{bill}</p>
+              <p>{numpeople}</p>
+              <input type="reset" value="Reset" />
+            </div>
+          </form>
+        </BoxStyled>
       </MainStyled>
     </MainLayout>
   );

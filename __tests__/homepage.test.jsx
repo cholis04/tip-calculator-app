@@ -1,7 +1,6 @@
 import { render, cleanup } from '@testing-library/react';
 import Home from '../pages';
 
-
 afterEach(cleanup)
 
 describe('Home', () => {
