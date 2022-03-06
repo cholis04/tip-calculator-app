@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 // Elements
-import { TextLabel } from '../Elements';
+import { InputGroup, TextLabel } from '../Elements';
 
 // Styled Components
 const HeadInput = styled.div`
@@ -31,6 +31,7 @@ const InputText = styled.input<inputProps>`
   outline: none;
   border: 3px solid transparent;
   background-color: hsl(189, 41%, 97%);
+  color: hsl(183, 100%, 15%);
   background-repeat: no-repeat;
   background-position: 0.6em 50%;
   border-radius: 5px;
@@ -84,6 +85,7 @@ interface propType {
   minimum?: number;
   icon?: string;
   inputChange: (prop: string, value: number) => void;
+  step?: number;
 }
 
 // Main Component
@@ -95,6 +97,7 @@ function TextInputGroup({
   minimum,
   icon,
   inputChange,
+  step,
 }: propType) {
   const [error, setError] = useState<null | string>(null);
 
@@ -114,7 +117,7 @@ function TextInputGroup({
   };
 
   return (
-    <div className="input-group">
+    <InputGroup>
       <HeadInput>
         <TextLabel htmlFor={id}>{labelText}</TextLabel>
         {error ? <TextError>{error}</TextError> : null}
@@ -126,9 +129,9 @@ function TextInputGroup({
         placeholder={placeholder}
         min={minimum}
         onChange={handleChange}
-        step={0.000000001}
+        step={step}
       />
-    </div>
+    </InputGroup>
   );
 }
 

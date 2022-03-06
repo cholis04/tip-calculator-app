@@ -25,7 +25,7 @@ const MainStyled = styled.main`
 
 const BoxStyled = styled.div`
   margin: 0 auto;
-  margin-top: 6rem;
+  margin-top: 2rem;
   padding: 1.9em;
   width: 100%;
   max-width: 920px;
@@ -44,11 +44,14 @@ const Home: NextPage = () => {
   const inputChange = (prop: string, value: number) => {
     switch (prop) {
       case 'bill':
-        return setBill(value);
+        setBill(value);
+        break;
       case 'numpeople':
-        return setNumpeople(value);
+        setNumpeople(value);
+        break;
       case 'tip':
-        return setTip(value);
+        setTip(value);
+        break;
     }
   };
 
@@ -75,23 +78,31 @@ const Home: NextPage = () => {
                 labelText="Bill"
                 placeholder="0"
                 minimum={1}
+                step={0.01}
                 type="number"
                 icon="dollar"
                 inputChange={inputChange}
               />
-              <RadioInputGroup />
+              <RadioInputGroup
+                name="tip"
+                type="radio"
+                id="tip"
+                inputChange={inputChange}
+              />
               <TextInputGroup
                 id="numpeople"
                 labelText="Number Of People"
                 placeholder="0"
                 type="number"
                 minimum={1}
+                step={1}
                 icon="person"
                 inputChange={inputChange}
               />
             </div>
             <div className="preview-data">
               <p>{bill}</p>
+              <p>{tip}%</p>
               <p>{numpeople}</p>
               <input type="reset" value="Reset" />
             </div>
