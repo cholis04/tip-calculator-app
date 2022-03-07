@@ -9,6 +9,13 @@ const SelectGroup = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+
+  /* Desktop */
+  @media only screen and (min-width: 680px) {
+    & {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
 `;
 
 const LabelRadio = styled.label`
@@ -18,11 +25,16 @@ const LabelRadio = styled.label`
   background-color: hsl(183, 100%, 15%);
   color: hsl(0, 0%, 100%);
   font-size: 24px;
-  padding: 0.2em 2.2em;
+  padding: 0.2em 1em;
   font-weight: 700;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+
+  &:hover {
+    color: hsl(183, 100%, 15%);
+    background-color: hsl(173, 61%, 77%);
+  }
 
   &:last-child {
     background-color: hsl(189, 41%, 97%);
@@ -70,6 +82,13 @@ const CustomInput = styled.input`
 
   &:focus {
     border: 3px solid hsl(174, 36%, 63%);
+  }
+
+  /* Desktop */
+  @media only screen and (min-width: 680px) {
+    & {
+      padding: 0 0.5em;
+    }
   }
 `;
 

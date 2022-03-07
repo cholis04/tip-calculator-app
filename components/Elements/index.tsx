@@ -9,4 +9,15 @@ export const TextLabel = styled.label`
 
 export const InputGroup = styled.div`
   margin-bottom: 1.7rem;
+
+  /* Desktop */
+  @media only screen and (min-width: 680px) {
+    & {
+      margin: 0;
+    }
+
+    &:nth-child(2) {
+      margin: 2.4rem auto;
+    }
+  }
 `;

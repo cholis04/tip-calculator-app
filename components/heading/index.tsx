@@ -8,6 +8,13 @@ const HeadingLogo = styled.h1`
   text-align: center;
   font-size: 1.5em;
   letter-spacing: 0.5em;
+
+  /* Desktop */
+  @media only screen and (min-width: 680px) {
+    & {
+      margin-top: 8rem;
+    }
+  }
 `;
 
 function HeadingOne() {
