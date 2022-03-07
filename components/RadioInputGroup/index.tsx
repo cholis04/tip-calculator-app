@@ -9,14 +9,6 @@ const SelectGroup = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  /* 
-  background-color:hsl(172, 67%, 45%)
-  background-color:hsl(183, 100%, 15%)
-  background-color:hsl(186, 14%, 43%)
-  background-color:hsl(184, 14%, 56%)
-  background-color:hsl(185, 41%, 84%)
-  background-color:hsl(189, 41%, 97%)
-  */
 `;
 
 const LabelRadio = styled.label`
@@ -34,7 +26,7 @@ const LabelRadio = styled.label`
 
   &:last-child {
     background-color: hsl(189, 41%, 97%);
-    padding: 0.1em;
+    padding: 0em;
   }
 `;
 
@@ -53,12 +45,14 @@ const CustomInput = styled.input`
   font-family: 'Space Mono';
   font-weight: 700;
   border-radius: 4px;
-  padding: 0.1em 0.6em;
-  border: none;
+  padding: 0 0.8em;
   outline: none;
   width: 100%;
+  height: 100%;
   color: hsl(183, 100%, 15%);
   background-color: hsl(189, 41%, 97%);
+  border: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
 
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -72,6 +66,10 @@ const CustomInput = styled.input`
 
   &::placeholder {
     color: hsl(184, 14%, 56%);
+  }
+
+  &:focus {
+    border: 3px solid hsl(174, 36%, 63%);
   }
 `;
 

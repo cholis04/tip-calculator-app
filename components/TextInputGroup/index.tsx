@@ -8,11 +8,13 @@ import { InputGroup, TextLabel } from '../Elements';
 const HeadInput = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const TextError = styled.span`
   font-weight: 700;
   color: hsl(8, 58%, 65%);
+  margin-bottom: 0.5rem;
 `;
 
 interface inputProps {
@@ -83,6 +85,7 @@ interface propType {
   placeholder: string;
   labelText: string;
   minimum?: number;
+  maximum?: number;
   icon?: string;
   inputChange: (prop: string, value: number) => void;
   step?: number;
@@ -95,20 +98,24 @@ function TextInputGroup({
   placeholder,
   labelText,
   minimum,
+  maximum,
   icon,
   inputChange,
   step,
 }: propType) {
   const [error, setError] = useState<null | string>(null);
 
+  // Handle On Text Changed
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
-    if (/^(0|\.|\-)/.test(value)) {
-      e.currentTarget.value = value.replace(/^(0|\.|\-)/, '');
+    if (/^0/.test(value)) {
+      e.currentTarget.value = value.replace(/^0/, '');
     } else {
       if (Number(value) < 1 && value !== '') {
         setError(`Can't be zero`);
+      } else if (!e.currentTarget.validity.valid) {
+        setError(e.currentTarget.validationMessage);
       } else {
         inputChange(id, Number(value));
         setError(null);
@@ -128,6 +135,7 @@ function TextInputGroup({
         type={type}
         placeholder={placeholder}
         min={minimum}
+        max={maximum}
         onChange={handleChange}
         step={step}
       />
