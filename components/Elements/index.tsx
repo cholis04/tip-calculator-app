@@ -21,3 +21,15 @@ export const InputGroup = styled.div`
     }
   }
 `;
+
+export const HeadInput = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+export const TextError = styled.span`
+  font-weight: 700;
+  color: hsl(8, 58%, 65%);
+  margin-bottom: 0.5rem;
+`;

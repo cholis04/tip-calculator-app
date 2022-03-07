@@ -1,26 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 // Elements
-import { InputGroup, TextLabel } from '../Elements';
-
-// Styled Components
-const HeadInput = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-const TextError = styled.span`
-  font-weight: 700;
-  color: hsl(8, 58%, 65%);
-  margin-bottom: 0.5rem;
-`;
+import { HeadInput, InputGroup, TextError, TextLabel } from '../Elements';
 
 interface inputProps {
   $icon: string | undefined;
 }
 
+// Styled Components
 const InputText = styled.input<inputProps>`
   font-size: 24px;
   padding: 0.2em 0.6em;
@@ -81,7 +69,7 @@ const InputText = styled.input<inputProps>`
 // Prop Type
 interface propType {
   id: string;
-  type: string;
+  type: 'number' | 'text';
   placeholder: string;
   labelText: string;
   minimum?: number;
@@ -113,7 +101,7 @@ function TextInputGroup({
       e.currentTarget.value = value.replace(/^0/, '');
     } else {
       if (Number(value) < 1 && value !== '') {
-        setError(`Can't be zero`);
+        setError(`Can't be zero.`);
       } else if (!e.currentTarget.validity.valid) {
         setError(e.currentTarget.validationMessage);
       } else {
@@ -143,4 +131,4 @@ function TextInputGroup({
   );
 }
 
-export default TextInputGroup;
+export default React.memo(TextInputGroup);

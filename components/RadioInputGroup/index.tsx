@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputGroup, TextLabel } from '../Elements';
+import { HeadInput, InputGroup, TextError, TextLabel } from '../Elements';
 
 // Styled Comopnents
 const SelectGroup = styled.div`
@@ -84,6 +84,10 @@ const CustomInput = styled.input`
     border: 3px solid hsl(174, 36%, 63%);
   }
 
+  &:invalid {
+    border: 3px solid hsl(8, 58%, 65%);
+  }
+
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
@@ -102,6 +106,8 @@ interface propType {
 
 // Main Component
 function RadioInputGroup({ id, name, type, inputChange }: propType) {
+  const [isCustom, setIsCustom] = useState(false);
+  const [error, setError] = useState<null | string>(null);
   // Custom Input Ref
   const inputCustomRef = useRef<HTMLInputElement>(null);
 
@@ -114,6 +120,7 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
   const radio50Ref = useRef<HTMLInputElement>(null);
 
   const enableCustom = (e: React.FormEvent<HTMLInputElement>) => {
+    setIsCustom(true);
     const value = e.currentTarget.value;
     inputChange(id, Number(value));
 
@@ -122,67 +129,89 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
     }
   };
 
-  const disableCustom = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    inputChange(id, Number(value));
-  };
-
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
+
+    if (/^0/.test(value)) {
+      e.currentTarget.value = value.replace(/^0/, '');
+    } else {
+      if (Number(value) < 1 && value !== '') {
+        setError(`Can't be zero.`);
+      } else if (!e.currentTarget.validity.valid) {
+        setError(e.currentTarget.validationMessage);
+      } else {
+        inputChange(id, Number(value));
+        setError(null);
+      }
+    }
+  };
+
+  // On Radio Button Change
+  const onRadioChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = Number(e.currentTarget.value);
+    setIsCustom(false);
     inputChange(id, Number(value));
+
+    // Empty Input Custom Value When is Error
+    if (inputCustomRef.current !== null && error !== null) {
+      inputCustomRef.current.value = '';
+      setError(null);
+    }
   };
 
   // Check if Value equal with Radio Buttons
-  const handleBlur = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleBlurCustom = (e: React.FormEvent<HTMLInputElement>) => {
+    console.log(e);
     const value = Number(e.currentTarget.value);
+    const customRefNotNull = inputCustomRef.current !== null;
 
-    if (value === 5) {
-      if (radio5Ref.current !== null && inputCustomRef.current !== null) {
-        radio5Ref.current.checked = true;
-        inputCustomRef.current.value = '';
-      }
-    }
-
-    if (value === 10) {
-      if (radio10Ref.current !== null && inputCustomRef.current !== null) {
-        radio10Ref.current.checked = true;
-        inputCustomRef.current.value = '';
-      }
-    }
-
-    if (value === 15) {
-      if (radio15Ref.current !== null && inputCustomRef.current !== null) {
-        radio15Ref.current.checked = true;
-        inputCustomRef.current.value = '';
-      }
-    }
-
-    if (value === 25) {
-      if (radio25Ref.current !== null && inputCustomRef.current !== null) {
-        radio25Ref.current.checked = true;
-        inputCustomRef.current.value = '';
-      }
-    }
-
-    if (value === 50) {
-      if (radio50Ref.current !== null && inputCustomRef.current !== null) {
-        radio50Ref.current.checked = true;
-        inputCustomRef.current.value = '';
-      }
+    switch (value) {
+      case 5:
+        if (radio5Ref.current !== null && customRefNotNull) {
+          radio5Ref.current.checked = true;
+          inputCustomRef.current.value = '';
+        }
+        break;
+      case 10:
+        if (radio10Ref.current !== null && customRefNotNull) {
+          radio10Ref.current.checked = true;
+          inputCustomRef.current.value = '';
+        }
+        break;
+      case 15:
+        if (radio15Ref.current !== null && customRefNotNull) {
+          radio15Ref.current.checked = true;
+          inputCustomRef.current.value = '';
+        }
+        break;
+      case 25:
+        if (radio25Ref.current !== null && customRefNotNull) {
+          radio25Ref.current.checked = true;
+          inputCustomRef.current.value = '';
+        }
+        break;
+      case 50:
+        if (radio50Ref.current !== null && customRefNotNull) {
+          radio50Ref.current.checked = true;
+          inputCustomRef.current.value = '';
+        }
+        break;
     }
   };
 
   return (
     <InputGroup>
-      <TextLabel>Select Tip %</TextLabel>
+      <HeadInput>
+        <TextLabel>Select Tip %</TextLabel>
+        {error ? <TextError>{error}</TextError> : null}
+      </HeadInput>
       <SelectGroup>
         <RadioInput
           type={type}
           name={name}
           value="5"
           id="tip5"
-          onChange={handleChange}
-          onClick={disableCustom}
+          onChange={onRadioChange}
           ref={radio5Ref}
         />
         <LabelRadio htmlFor="tip5">5%</LabelRadio>
@@ -191,8 +220,7 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
           name={name}
           value="10"
           id="tip10"
-          onChange={handleChange}
-          onClick={disableCustom}
+          onChange={onRadioChange}
           ref={radio10Ref}
         />
         <LabelRadio htmlFor="tip10">10%</LabelRadio>
@@ -201,8 +229,7 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
           name={name}
           value="15"
           id="tip15"
-          onChange={handleChange}
-          onClick={disableCustom}
+          onChange={onRadioChange}
           ref={radio15Ref}
         />
         <LabelRadio htmlFor="tip15">15%</LabelRadio>
@@ -211,8 +238,7 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
           name={name}
           value="25"
           id="tip25"
-          onChange={handleChange}
-          onClick={disableCustom}
+          onChange={onRadioChange}
           ref={radio25Ref}
         />
         <LabelRadio htmlFor="tip25">25%</LabelRadio>
@@ -221,8 +247,7 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
           name={name}
           value="50"
           id="tip50"
-          onChange={handleChange}
-          onClick={disableCustom}
+          onChange={onRadioChange}
           ref={radio50Ref}
         />
         <LabelRadio htmlFor="tip50">50%</LabelRadio>
@@ -240,9 +265,10 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
             placeholder="Custom"
             min={1}
             step={0.01}
+            max={999}
             onClick={enableCustom}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleBlurCustom}
             ref={inputCustomRef}
           />
         </LabelRadio>
@@ -251,4 +277,4 @@ function RadioInputGroup({ id, name, type, inputChange }: propType) {
   );
 }
 
-export default RadioInputGroup;
+export default React.memo(RadioInputGroup);

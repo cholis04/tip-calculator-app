@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { NextPage } from 'next';
 
@@ -185,7 +185,7 @@ const Home: NextPage = () => {
   const [amountTip, setAmountTip] = useState(0);
   const [amountBill, setAmountBill] = useState(0);
 
-  const inputChange = (prop: string, value: number) => {
+  const inputChange = useCallback((prop: string, value: number) => {
     switch (prop) {
       case 'bill':
         setBill(value);
@@ -197,7 +197,7 @@ const Home: NextPage = () => {
         setTip(value);
         break;
     }
-  };
+  }, []);
 
   // On Reset Form
   const resetForm = () => {
@@ -241,6 +241,7 @@ const Home: NextPage = () => {
                 labelText="Bill"
                 placeholder="0"
                 minimum={1}
+                maximum={9999}
                 step={0.01}
                 type="number"
                 icon="dollar"
@@ -270,14 +271,18 @@ const Home: NextPage = () => {
                   <DetailName>Tip Amount</DetailName>
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
-                <TotalAmount>${amountTip.toFixed(2)}</TotalAmount>
+                <TotalAmount data-testid="tipperson">
+                  ${amountTip.toFixed(2)}
+                </TotalAmount>
               </AmountBox>
               <AmountBox>
                 <DetailAmount>
                   <DetailName>Total</DetailName>
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
-                <TotalAmount>${amountBill.toFixed(2)}</TotalAmount>
+                <TotalAmount data-testid="billperson">
+                  ${amountBill.toFixed(2)}
+                </TotalAmount>
               </AmountBox>
               <ResetButton
                 type="reset"
