@@ -75,7 +75,8 @@ interface propType {
   minimum?: number;
   maximum?: number;
   icon?: string;
-  inputChange: (prop: string, value: number) => void;
+  value: string;
+  setValue: (prop: string, value: string) => void;
   step?: number;
 }
 
@@ -88,12 +89,12 @@ function TextInputGroup({
   minimum,
   maximum,
   icon,
-  inputChange,
+  value,
+  setValue,
   step,
 }: propType) {
   const [error, setError] = useState<null | string>(null);
 
-  // Handle On Text Changed
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
@@ -105,11 +106,18 @@ function TextInputGroup({
       } else if (!e.currentTarget.validity.valid) {
         setError(e.currentTarget.validationMessage);
       } else {
-        inputChange(id, Number(value));
+        setValue(id, value);
         setError(null);
       }
     }
   };
+
+  // Track Value when Claar / Reset
+  useEffect(() => {
+    if (value === '') {
+      setError(null);
+    }
+  }, [value]);
 
   return (
     <InputGroup>
@@ -124,6 +132,7 @@ function TextInputGroup({
         placeholder={placeholder}
         min={minimum}
         max={maximum}
+        value={value}
         onChange={handleChange}
         step={step}
       />

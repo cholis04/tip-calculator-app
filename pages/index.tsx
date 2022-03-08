@@ -141,6 +141,10 @@ const ResetButton = styled.input`
     cursor: not-allowed;
   }
 
+  &:focus {
+    outline: 3px solid hsl(185, 41%, 84%);
+  }
+
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
@@ -179,14 +183,14 @@ const FormInputArea = styled.div`
 
 // Main Component
 const Home: NextPage = () => {
-  const [resetDisalbed, setResetDisabled] = useState(true);
-  const [bill, setBill] = useState(0);
-  const [numpeople, setNumpeople] = useState(0);
-  const [tip, setTip] = useState(0);
+  const [resetDisabled, setResetDisabled] = useState(true);
+  const [bill, setBill] = useState('');
+  const [numpeople, setNumpeople] = useState('');
+  const [tip, setTip] = useState('');
   const [amountTip, setAmountTip] = useState(0);
   const [amountBill, setAmountBill] = useState(0);
 
-  const inputChange = useCallback((prop: string, value: number) => {
+  const inputChange = useCallback((prop: string, value: string) => {
     switch (prop) {
       case 'bill':
         setBill(value);
@@ -202,18 +206,18 @@ const Home: NextPage = () => {
 
   // On Reset Form
   const resetForm = () => {
-    setBill(0);
-    setNumpeople(0);
-    setTip(0);
+    setBill('');
+    setNumpeople('');
+    setTip('');
   };
 
   // Track Amount Bill and Tip
   useEffect(() => {
     if (bill && tip && numpeople) {
-      const total = bill + bill * (tip / 100);
+      const total = Number(bill) + Number(bill) * (Number(tip) / 100);
 
-      setAmountBill(total / numpeople);
-      setAmountTip((bill * (tip / 100)) / numpeople);
+      setAmountBill(total / Number(numpeople));
+      setAmountTip((Number(bill) * (Number(tip) / 100)) / Number(numpeople));
     } else {
       setAmountBill(0);
       setAmountTip(0);
@@ -254,13 +258,15 @@ const Home: NextPage = () => {
                 step={0.01}
                 type="number"
                 icon="dollar"
-                inputChange={inputChange}
+                value={bill}
+                setValue={inputChange}
               />
               <RadioInputGroup
                 name="tip"
                 type="radio"
                 id="tip"
-                inputChange={inputChange}
+                value={tip}
+                setValue={inputChange}
               />
               <TextInputGroup
                 id="numpeople"
@@ -268,10 +274,11 @@ const Home: NextPage = () => {
                 placeholder="0"
                 type="number"
                 minimum={1}
-                maximum={20}
+                maximum={30}
                 step={1}
+                value={numpeople}
                 icon="person"
-                inputChange={inputChange}
+                setValue={inputChange}
               />
             </FormInputArea>
             <ResultBox>
@@ -296,7 +303,7 @@ const Home: NextPage = () => {
               <ResetButton
                 type="reset"
                 value="Reset"
-                disabled={resetDisalbed}
+                disabled={resetDisabled}
               />
             </ResultBox>
           </FormTip>
