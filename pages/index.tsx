@@ -62,6 +62,7 @@ const AmountBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 1.6rem;
 `;
 
@@ -225,6 +226,14 @@ const Home: NextPage = () => {
     }
   }, [bill, tip, numpeople]);
 
+  const formatCurrency = (amount: number) => {
+    const formater = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+    return formater.format(amount);
+  };
+
   return (
     <MainLayout>
       <Head>
@@ -272,7 +281,7 @@ const Home: NextPage = () => {
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
                 <TotalAmount data-testid="tipperson">
-                  ${amountTip.toFixed(2)}
+                  {formatCurrency(amountTip)}
                 </TotalAmount>
               </AmountBox>
               <AmountBox>
@@ -281,7 +290,7 @@ const Home: NextPage = () => {
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
                 <TotalAmount data-testid="billperson">
-                  ${amountBill.toFixed(2)}
+                  {formatCurrency(amountBill)}
                 </TotalAmount>
               </AmountBox>
               <ResetButton
