@@ -192,7 +192,7 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
     <InputGroup>
       <HeadInput>
         <TextLabel id="selecttip">Select Tip %</TextLabel>
-        {error ? <TextError>{error}</TextError> : null}
+        {error ? <TextError role="alert">{error}</TextError> : null}
       </HeadInput>
       <SelectGroup role="radiogroup" aria-labelledby="selecttip">
         <RadioBox>

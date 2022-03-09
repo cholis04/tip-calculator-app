@@ -123,7 +123,7 @@ function TextInputGroup({
     <InputGroup>
       <HeadInput>
         <TextLabel htmlFor={id}>{labelText}</TextLabel>
-        {error ? <TextError>{error}</TextError> : null}
+        {error ? <TextError role="alert">{error}</TextError> : null}
       </HeadInput>
       <InputText
         $icon={icon}
