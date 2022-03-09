@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, cleanup, fireEvent } from '@testing-library/react';
 
-import Home from '..';
+import Home from '../pages';
 
 afterEach(cleanup)
 
