@@ -287,7 +287,10 @@ const Home: NextPage = () => {
                   <DetailName>Tip Amount</DetailName>
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
-                <TotalAmount data-testid="tipperson">
+                <TotalAmount
+                  data-testid="tipperson"
+                  title="Tip Amount / person"
+                >
                   {formatCurrency(amountTip)}
                 </TotalAmount>
               </AmountBox>
@@ -296,7 +299,10 @@ const Home: NextPage = () => {
                   <DetailName>Total</DetailName>
                   <DetailPer>/ person</DetailPer>
                 </DetailAmount>
-                <TotalAmount data-testid="billperson">
+                <TotalAmount
+                  data-testid="billperson"
+                  title="Total Bill / person"
+                >
                   {formatCurrency(amountBill)}
                 </TotalAmount>
               </AmountBox>

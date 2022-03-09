@@ -18,32 +18,43 @@ const SelectGroup = styled.div`
   }
 `;
 
+const RadioBox = styled.div`
+  position: relative;
+`;
+
 const LabelRadio = styled.label`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: hsl(183, 100%, 15%);
   color: hsl(0, 0%, 100%);
   font-size: 24px;
-  padding: 0.2em 1em;
+  padding: 0.3em 1em;
   font-weight: 700;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
 
   &:hover {
     color: hsl(183, 100%, 15%);
     background-color: hsl(173, 61%, 77%);
   }
-
-  &:last-child {
-    background-color: hsl(189, 41%, 97%);
-    padding: 0em;
-  }
 `;
 
 const RadioInput = styled.input`
-  display: none;
+  /* Remove default style */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  /* Remove default style */
+
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
 
   &:checked + ${LabelRadio} {
     color: hsl(183, 100%, 15%);
@@ -109,16 +120,6 @@ interface propType {
 function RadioInputGroup({ id, name, type, setValue, value }: propType) {
   const [error, setError] = useState<null | string>(null);
   const [customValue, setCustomValue] = useState('');
-  // Custom Input Ref
-  const inputCustomRef = useRef<HTMLInputElement>(null);
-
-  // Radio Input Ref
-  const radioCustomRef = useRef<HTMLInputElement>(null);
-  const radio5Ref = useRef<HTMLInputElement>(null);
-  const radio10Ref = useRef<HTMLInputElement>(null);
-  const radio15Ref = useRef<HTMLInputElement>(null);
-  const radio25Ref = useRef<HTMLInputElement>(null);
-  const radio50Ref = useRef<HTMLInputElement>(null);
 
   const enableCustom = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -134,10 +135,6 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
         setValue(id, value);
         setError(null);
       }
-    }
-
-    if (radioCustomRef.current !== null) {
-      radioCustomRef.current.checked = true;
     }
   };
 
@@ -157,10 +154,6 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
         setError(null);
       }
     }
-
-    if (radioCustomRef.current !== null) {
-      radioCustomRef.current.checked = true;
-    }
   };
 
   // On Radio Button Change
@@ -170,11 +163,6 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
     setCustomValue('');
     setValue(id, value);
     setError(null);
-
-    // Empty Input Custom Value When is Error
-    if (inputCustomRef.current !== null && error !== null) {
-      inputCustomRef.current.value = '';
-    }
 
     console.log('Changed Value');
   };
@@ -192,50 +180,18 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
     setValue(id, customValue);
   }, [id, setValue, customValue]);
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLLabelElement>) => {
-    if (e.code === 'Space') {
-      const { textContent } = e.currentTarget;
-      const removePercentage = textContent?.replace(/%/, '');
-
-      switch (removePercentage) {
-        case '5':
-          if (radio5Ref.current !== null) {
-            radio5Ref.current.checked = true;
-            setValue(id, removePercentage);
-          }
-          break;
-        case '10':
-          if (radio10Ref.current !== null) {
-            radio10Ref.current.checked = true;
-            setValue(id, removePercentage);
-          }
-          break;
-        case '15':
-          if (radio15Ref.current !== null) {
-            radio15Ref.current.checked = true;
-            setValue(id, removePercentage);
-          }
-          break;
-        case '25':
-          if (radio25Ref.current !== null) {
-            radio25Ref.current.checked = true;
-            setValue(id, removePercentage);
-          }
-          break;
-        case '50':
-          if (radio50Ref.current !== null) {
-            radio50Ref.current.checked = true;
-            setValue(id, removePercentage);
-          }
-          break;
-        default:
-          break;
-      }
-
-      // Empty Input Custom Value When is Error
-      if (inputCustomRef.current !== null && error !== null) {
-        inputCustomRef.current.value = '';
-      }
+  // Check if Custom input has a same value
+  const handleBlur = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (
+      value === '5' ||
+      value === '10' ||
+      value === '15' ||
+      value === '25' ||
+      value === '50'
+    ) {
+      setCustomValue('');
+      setValue(id, value);
     }
   };
 
@@ -246,82 +202,81 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
         {error ? <TextError>{error}</TextError> : null}
       </HeadInput>
       <SelectGroup role="radiogroup" aria-labelledby="selecttip">
-        <RadioInput
-          type={type}
-          name={name}
-          value="5"
-          id="tip5"
-          onClick={onRadioChange}
-          ref={radio5Ref}
-        />
-        <LabelRadio htmlFor="tip5" tabIndex={0} onKeyPress={handleKeyPress}>
-          5%
-        </LabelRadio>
-        <RadioInput
-          type={type}
-          name={name}
-          value="10"
-          id="tip10"
-          onClick={onRadioChange}
-          ref={radio10Ref}
-        />
-        <LabelRadio htmlFor="tip10" tabIndex={0} onKeyPress={handleKeyPress}>
-          10%
-        </LabelRadio>
-        <RadioInput
-          type={type}
-          name={name}
-          value="15"
-          id="tip15"
-          onClick={onRadioChange}
-          ref={radio15Ref}
-        />
-        <LabelRadio htmlFor="tip15" tabIndex={0} onKeyPress={handleKeyPress}>
-          15%
-        </LabelRadio>
-        <RadioInput
-          type={type}
-          name={name}
-          value="25"
-          id="tip25"
-          onClick={onRadioChange}
-          ref={radio25Ref}
-        />
-        <LabelRadio htmlFor="tip25" tabIndex={0} onKeyPress={handleKeyPress}>
-          25%
-        </LabelRadio>
-        <RadioInput
-          type={type}
-          name={name}
-          value="50"
-          id="tip50"
-          onClick={onRadioChange}
-          ref={radio50Ref}
-        />
-        <LabelRadio htmlFor="tip50" tabIndex={0} onKeyPress={handleKeyPress}>
-          50%
-        </LabelRadio>
-
-        <RadioInput
-          type={type}
-          name={name}
-          value="custom"
-          id="tipCustom"
-          ref={radioCustomRef}
-        />
-        <LabelRadio>
-          <CustomInput
-            type="number"
-            placeholder="Custom"
-            min={1}
-            step={0.01}
-            max={199}
-            onClick={enableCustom}
-            onChange={handleChange}
-            value={customValue}
-            ref={inputCustomRef}
+        <RadioBox>
+          <RadioInput
+            type={type}
+            name={name}
+            value="5"
+            id="tip5"
+            onChange={onRadioChange}
+            checked={value === '5'}
           />
-        </LabelRadio>
+          <LabelRadio htmlFor="tip5">5%</LabelRadio>
+        </RadioBox>
+
+        <RadioBox>
+          <RadioInput
+            type={type}
+            name={name}
+            value="10"
+            id="tip10"
+            onChange={onRadioChange}
+            checked={value === '10'}
+          />
+          <LabelRadio htmlFor="tip10">10%</LabelRadio>
+        </RadioBox>
+
+        <RadioBox>
+          <RadioInput
+            type={type}
+            name={name}
+            value="15"
+            id="tip15"
+            onChange={onRadioChange}
+            checked={value === '15'}
+          />
+          <LabelRadio htmlFor="tip15">15%</LabelRadio>
+        </RadioBox>
+
+        <RadioBox>
+          <RadioInput
+            type={type}
+            name={name}
+            value="25"
+            id="tip25"
+            onChange={onRadioChange}
+            checked={value === '25'}
+          />
+          <LabelRadio htmlFor="tip25">25%</LabelRadio>
+        </RadioBox>
+
+        <RadioBox>
+          <RadioInput
+            type={type}
+            name={name}
+            value="50"
+            id="tip50"
+            onChange={onRadioChange}
+            checked={value === '50'}
+          />
+          <LabelRadio htmlFor="tip50">50%</LabelRadio>
+        </RadioBox>
+
+        <RadioBox>
+          <label>
+            <CustomInput
+              type="number"
+              placeholder="Custom"
+              min={1}
+              step={0.01}
+              max={199}
+              onClick={enableCustom}
+              onChange={handleChange}
+              value={customValue}
+              onBlur={handleBlur}
+            />
+          </label>
+        </RadioBox>
       </SelectGroup>
     </InputGroup>
   );
