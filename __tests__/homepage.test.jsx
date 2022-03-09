@@ -1,4 +1,6 @@
+import '@testing-library/jest-dom'
 import { render, cleanup, fireEvent } from '@testing-library/react';
+
 import Home from '../pages';
 
 afterEach(cleanup)
@@ -21,7 +23,20 @@ describe('Homepage', () => {
     const resetButton = getByText(/reset/i);
 
     fireEvent.change(inputBill, {target: {value: '10'}})
-    expect(resetButton.disabled).toBe(false);
+    expect(resetButton).toBeEnabled();
+
+  })
+
+  it('input bill with < 0 value display error message', () => {
+    const {getByLabelText, getByRole} = render(<Home />);
+    const inputBill = getByLabelText('Bill');
+    
+    fireEvent.change(inputBill, {target: {value: '-10'}})
+
+    const alertMessage = getByRole("alert");
+
+    expect(alertMessage).toBeInTheDocument();
+    expect(alertMessage).toHaveTextContent("Can't be zero")
 
   })
 
@@ -32,7 +47,20 @@ describe('Homepage', () => {
     const resetButton = getByText(/reset/i);
 
     fireEvent.change(inputNumPeople, {target: {value: '2'}})
-    expect(resetButton.disabled).toBe(false);
+    expect(resetButton).toBeEnabled();
+
+  })
+
+  it('input num of people with < 0 value display error message', () => {
+    const {getByLabelText, getByRole} = render(<Home />);
+    const inputNumPeople = getByLabelText('Number Of People');
+    
+    fireEvent.change(inputNumPeople, {target: {value: '-10'}})
+    
+    const alertMessage = getByRole("alert");
+
+    expect(alertMessage).toBeInTheDocument();
+    expect(alertMessage).toHaveTextContent("Can't be zero")
 
   })
 
@@ -42,11 +70,11 @@ describe('Homepage', () => {
     const labelRadio5Persen = getByLabelText('5%');
     const resetButton = getByText(/reset/i);
 
-    expect(labelRadio5Persen.checked).toEqual(false);
+    expect(labelRadio5Persen).not.toBeChecked();
 
     fireEvent.click(labelRadio5Persen);
-    expect(labelRadio5Persen.checked).toEqual(true);
-    expect(resetButton.disabled).toBe(false);
+    expect(labelRadio5Persen).toBeChecked();
+    expect(resetButton).toBeEnabled();
   })
 
   it('split billing calculation I', () => {
@@ -120,10 +148,10 @@ describe('Homepage', () => {
     fireEvent.change(inputNumPeople, {target: {value: '2'}})
     fireEvent.click(resetButton);
 
-    expect(inputBill.value).toBe('')
-    expect(inputNumPeople.value).toBe('')
-    expect(labelRadio5Persen.checked).toEqual(false);
-    expect(resetButton.disabled).toBe(true);
+    expect(inputBill).not.toHaveValue();
+    expect(inputNumPeople).not.toHaveValue();
+    expect(labelRadio5Persen).not.toBeChecked();
+    expect(resetButton).toBeDisabled();
 
   })
 });
