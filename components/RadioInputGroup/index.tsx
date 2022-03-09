@@ -124,17 +124,13 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
   const enableCustom = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
-    if (/^0/.test(value)) {
-      e.currentTarget.value = value.replace(/^0/, '');
+    if (Number(value) < 1 && value !== '') {
+      setError(`Can't be zero.`);
+    } else if (!e.currentTarget.validity.valid) {
+      setError(e.currentTarget.validationMessage);
     } else {
-      if (Number(value) < 1 && value !== '') {
-        setError(`Can't be zero.`);
-      } else if (!e.currentTarget.validity.valid) {
-        setError(e.currentTarget.validationMessage);
-      } else {
-        setValue(id, value);
-        setError(null);
-      }
+      setValue(id, value);
+      setError(null);
     }
   };
 
@@ -149,8 +145,8 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
       } else if (!e.currentTarget.validity.valid) {
         setError(e.currentTarget.validationMessage);
       } else {
-        setValue(id, value);
         setCustomValue(value);
+        setValue(id, value);
         setError(null);
       }
     }
@@ -160,11 +156,8 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
   const onRadioChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
-    setCustomValue('');
     setValue(id, value);
     setError(null);
-
-    console.log('Changed Value');
   };
 
   // Track Value when Claar / Reset
@@ -175,12 +168,7 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
     }
   }, [value]);
 
-  // Track Custom Value to Change Set Value
-  useEffect(() => {
-    setValue(id, customValue);
-  }, [id, setValue, customValue]);
-
-  // Check if Custom input has a same value
+  // Empty Custom input if has a same value
   const handleBlur = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (
