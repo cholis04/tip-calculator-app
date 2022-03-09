@@ -1,4 +1,4 @@
-import { render, cleanup, fireEvent, getByDisplayValue, getByText, getByTestId } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import Home from '../pages';
 
 afterEach(cleanup)
@@ -50,14 +50,14 @@ describe('Homepage', () => {
   })
 
   it('split billing calculation I', () => {
-    const {getByLabelText, getByTestId} = render(<Home />);
+    const {getByLabelText, getByTitle} = render(<Home />);
 
     const inputNumPeople = getByLabelText('Number Of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio25Persen = getByLabelText('25%');
 
-    const AmountTip = getByTestId('tipperson');
-    const AmountBill = getByTestId('billperson');
+    const AmountTip = getByTitle('Tip Amount / person');
+    const AmountBill = getByTitle('Total Bill / person');
 
     fireEvent.change(inputBill, {target: {value: '250'}})
     fireEvent.click(labelRadio25Persen);
@@ -69,14 +69,14 @@ describe('Homepage', () => {
   })
 
   it('split billing calculation II', () => {
-    const {getByLabelText, getByTestId} = render(<Home />);
+    const {getByLabelText, getByTitle} = render(<Home />);
 
     const inputNumPeople = getByLabelText('Number Of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio5Persen = getByLabelText('5%');
 
-    const AmountTip = getByTestId('tipperson');
-    const AmountBill = getByTestId('billperson');
+    const AmountTip = getByTitle('Tip Amount / person');
+    const AmountBill = getByTitle('Total Bill / person');
 
     fireEvent.change(inputBill, {target: {value: '10'}})
     fireEvent.click(labelRadio5Persen);
