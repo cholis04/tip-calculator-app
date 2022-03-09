@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom'
 import { render, cleanup, fireEvent } from '@testing-library/react';
 
-import Home from '../pages';
+import Home from '..';
 
 afterEach(cleanup)
 
-describe('Homepage', () => {
+describe('Home Page', () => {
   it('render a heading level 1 splitter', () => {
     const {getByRole} = render(<Home />);
 
