@@ -62,6 +62,11 @@ const RadioInput = styled.input`
   }
 `;
 
+const LabelCustomInput = styled.label`
+  /* display: block; */
+  width: 100%;
+`;
+
 const CustomInput = styled.input`
   text-align: right;
   font-size: 24px;
@@ -251,7 +256,7 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
         </RadioBox>
 
         <RadioBox>
-          <label>
+          <LabelCustomInput>
             <CustomInput
               type="number"
               placeholder="Custom"
@@ -263,7 +268,7 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
               value={customValue}
               onBlur={handleBlur}
             />
-          </label>
+          </LabelCustomInput>
         </RadioBox>
       </SelectGroup>
     </InputGroup>

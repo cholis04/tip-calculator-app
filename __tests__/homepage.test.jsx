@@ -57,14 +57,14 @@ describe('Homepage', () => {
     const labelRadio25Persen = getByLabelText('25%');
 
     const AmountTip = getByTitle('Tip Amount / person');
-    const AmountBill = getByTitle('Total Bill / person');
+    const AmountBill = getByTitle('Total / person');
 
-    fireEvent.change(inputBill, {target: {value: '250'}})
+    fireEvent.change(inputBill, {target: {value: '250'}});
     fireEvent.click(labelRadio25Persen);
-    fireEvent.change(inputNumPeople, {target: {value: '3'}})
+    fireEvent.change(inputNumPeople, {target: {value: '3'}});
 
     expect(AmountTip.textContent).toBe('$20.83');
-    expect(AmountBill.textContent).toBe('$104.17')
+    expect(AmountBill.textContent).toBe('$104.17');
 
   })
 
@@ -76,14 +76,33 @@ describe('Homepage', () => {
     const labelRadio5Persen = getByLabelText('5%');
 
     const AmountTip = getByTitle('Tip Amount / person');
-    const AmountBill = getByTitle('Total Bill / person');
+    const AmountBill = getByTitle('Total / person');
 
     fireEvent.change(inputBill, {target: {value: '10'}})
     fireEvent.click(labelRadio5Persen);
     fireEvent.change(inputNumPeople, {target: {value: '2'}})
 
     expect(AmountTip.textContent).toBe('$0.25');
-    expect(AmountBill.textContent).toBe('$5.25')
+    expect(AmountBill.textContent).toBe('$5.25');
+
+  })
+
+  it('split billing calculation III', () => {
+    const {getByLabelText, getByTitle} = render(<Home />);
+
+    const inputNumPeople = getByLabelText('Number Of People');
+    const inputBill = getByLabelText('Bill');
+    const labelRadio15Persen = getByLabelText('15%');
+
+    const AmountTip = getByTitle('Tip Amount / person');
+    const AmountBill = getByTitle('Total / person');
+
+    fireEvent.change(inputBill, {target: {value: '142.55'}})
+    fireEvent.click(labelRadio15Persen);
+    fireEvent.change(inputNumPeople, {target: {value: '5'}})
+
+    expect(AmountTip.textContent).toBe('$4.28');
+    expect(AmountBill.textContent).toBe('$32.79');
 
   })
 
