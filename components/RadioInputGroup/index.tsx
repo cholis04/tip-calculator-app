@@ -165,16 +165,18 @@ function RadioInputGroup({
     const value = e.currentTarget.value;
 
     setValue(id, value);
-    setError(null);
+    if (error) {
+      if (inputCustomRef.current !== null) {
+        inputCustomRef.current.value = '';
+      }
+      setError(null);
+    }
   };
 
   // Track Value when Claar / Reset
   useEffect(() => {
     if (value === '') {
       setError(null);
-      if (inputCustomRef.current !== null) {
-        inputCustomRef.current.value = '';
-      }
     }
   }, [value]);
 

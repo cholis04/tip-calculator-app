@@ -102,6 +102,11 @@ function FormSplitter() {
   const [amountTip, setAmountTip] = useState(0);
   const [amountBill, setAmountBill] = useState(0);
 
+  // Set Maximum Values
+  const maxBill = 999999;
+  const maxTip = 499;
+  const maxPeople = 99;
+
   const inputChange = useCallback((prop: string, value: string) => {
     switch (prop) {
       case 'bill':
@@ -136,9 +141,9 @@ function FormSplitter() {
       const noZeroValues = FixBill > 0 && FixTip > 0 && FixNumpeople > 0;
 
       if (
-        FixBill <= 9999 &&
-        FixTip <= 199 &&
-        FixNumpeople <= 99 &&
+        FixBill <= maxBill &&
+        FixTip <= maxTip &&
+        FixNumpeople <= maxPeople &&
         noZeroValues
       ) {
         setAmountBill(total / FixNumpeople);
@@ -164,7 +169,7 @@ function FormSplitter() {
           labelText="Bill"
           placeholder="0"
           minimum={1}
-          maximum={9999}
+          maximum={maxBill}
           step={0.01}
           type="number"
           icon="dollar"
@@ -176,7 +181,7 @@ function FormSplitter() {
           type="radio"
           id="tip"
           value={tip}
-          maximum={199}
+          maximum={maxTip}
           setValue={inputChange}
         />
         <TextInputGroup
@@ -185,7 +190,7 @@ function FormSplitter() {
           placeholder="0"
           type="number"
           minimum={1}
-          maximum={99}
+          maximum={maxPeople}
           step={1}
           value={numpeople}
           icon="person"

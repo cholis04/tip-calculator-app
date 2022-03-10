@@ -95,9 +95,6 @@ function TextInputGroup({
 }: propType) {
   const [error, setError] = useState<null | string>(null);
 
-  // Ref
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
@@ -126,9 +123,6 @@ function TextInputGroup({
   useEffect(() => {
     if (value === '') {
       setError(null);
-      if (inputRef.current !== null) {
-        inputRef.current.value = '';
-      }
     }
   }, [value]);
 
@@ -148,7 +142,6 @@ function TextInputGroup({
         onChange={handleChange}
         step={step}
         onKeyPress={handleKeyPress}
-        ref={inputRef}
       />
     </InputGroup>
   );
