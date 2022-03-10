@@ -98,18 +98,15 @@ function TextInputGroup({
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
-    if (/^0/.test(value)) {
-      e.currentTarget.value = value.replace(/^0/, '');
+    if (Number(value) < 1 && value !== '') {
+      setError(`Can't be zero.`);
+    } else if (!e.currentTarget.validity.valid) {
+      setError(e.currentTarget.validationMessage);
     } else {
-      if (Number(value) < 1 && value !== '') {
-        setError(`Can't be zero.`);
-      } else if (!e.currentTarget.validity.valid) {
-        setError(e.currentTarget.validationMessage);
-      } else {
-        setValue(id, value);
-        setError(null);
-      }
+      setError(null);
     }
+
+    setValue(id, value);
   };
 
   // Track Value when Claar / Reset

@@ -128,10 +128,15 @@ function FormSplitter() {
   // Track Amount Bill and Tip
   useEffect(() => {
     if (bill && tip && numpeople) {
-      const total = Number(bill) + Number(bill) * (Number(tip) / 100);
+      const FixBill = Number(bill.slice(0, 4));
+      const FixTip = Number(tip.slice(0, 4));
+      const FixNumpeople = Number(numpeople.slice(0, 2));
+      const total = FixBill + FixBill * (FixTip / 100);
 
-      setAmountBill(total / Number(numpeople));
-      setAmountTip((Number(bill) * (Number(tip) / 100)) / Number(numpeople));
+      if (FixBill <= 9999 && FixTip <= 199 && FixNumpeople <= 99) {
+        setAmountBill(total / FixNumpeople);
+        setAmountTip((FixBill * (FixTip / 100)) / FixNumpeople);
+      }
     } else {
       setAmountBill(0);
       setAmountTip(0);
@@ -151,7 +156,7 @@ function FormSplitter() {
           id="bill"
           labelText="Bill"
           placeholder="0"
-          minimum={1}
+          minimum={0}
           maximum={9999}
           step={0.01}
           type="number"
@@ -164,6 +169,7 @@ function FormSplitter() {
           type="radio"
           id="tip"
           value={tip}
+          maximum={199}
           setValue={inputChange}
         />
         <TextInputGroup
@@ -172,7 +178,7 @@ function FormSplitter() {
           placeholder="0"
           type="number"
           minimum={1}
-          maximum={30}
+          maximum={99}
           step={1}
           value={numpeople}
           icon="person"

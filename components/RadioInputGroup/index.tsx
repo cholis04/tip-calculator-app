@@ -119,10 +119,18 @@ interface propType {
   type: string;
   setValue: (prop: string, value: string) => void;
   value: string;
+  maximum?: number;
 }
 
 // Main Component
-function RadioInputGroup({ id, name, type, setValue, value }: propType) {
+function RadioInputGroup({
+  id,
+  name,
+  type,
+  setValue,
+  value,
+  maximum,
+}: propType) {
   const [error, setError] = useState<null | string>(null);
   const [customValue, setCustomValue] = useState('');
 
@@ -134,27 +142,25 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
     } else if (!e.currentTarget.validity.valid) {
       setError(e.currentTarget.validationMessage);
     } else {
-      setValue(id, value);
       setError(null);
     }
+
+    setValue(id, value);
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
-    if (/^0/.test(value)) {
-      e.currentTarget.value = value.replace(/^0/, '');
+    if (Number(value) < 1 && value !== '') {
+      setError(`Can't be zero.`);
+    } else if (!e.currentTarget.validity.valid) {
+      setError(e.currentTarget.validationMessage);
     } else {
-      if (Number(value) < 1 && value !== '') {
-        setError(`Can't be zero.`);
-      } else if (!e.currentTarget.validity.valid) {
-        setError(e.currentTarget.validationMessage);
-      } else {
-        setCustomValue(value);
-        setValue(id, value);
-        setError(null);
-      }
+      setError(null);
     }
+
+    setCustomValue(value);
+    setValue(id, value);
   };
 
   // On Radio Button Change
@@ -262,7 +268,7 @@ function RadioInputGroup({ id, name, type, setValue, value }: propType) {
               placeholder="Custom"
               min={1}
               step={0.01}
-              max={199}
+              max={maximum}
               onClick={enableCustom}
               onChange={handleChange}
               value={customValue}
