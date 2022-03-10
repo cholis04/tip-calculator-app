@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 // Elements
@@ -95,6 +95,9 @@ function TextInputGroup({
 }: propType) {
   const [error, setError] = useState<null | string>(null);
 
+  // Ref
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
@@ -102,6 +105,9 @@ function TextInputGroup({
       setError(`Can't be zero.`);
     } else if (!e.currentTarget.validity.valid) {
       setError(e.currentTarget.validationMessage);
+    } else if (/^0+/.test(value) && Number(value) > 0) {
+      setError(null);
+      e.currentTarget.value = value.replace(/^0+/, '');
     } else {
       setError(null);
     }
@@ -120,6 +126,9 @@ function TextInputGroup({
   useEffect(() => {
     if (value === '') {
       setError(null);
+      if (inputRef.current !== null) {
+        inputRef.current.value = '';
+      }
     }
   }, [value]);
 
@@ -136,10 +145,10 @@ function TextInputGroup({
         placeholder={placeholder}
         min={minimum}
         max={maximum}
-        value={value}
         onChange={handleChange}
         step={step}
         onKeyPress={handleKeyPress}
+        ref={inputRef}
       />
     </InputGroup>
   );

@@ -132,34 +132,24 @@ function RadioInputGroup({
   maximum,
 }: propType) {
   const [error, setError] = useState<null | string>(null);
-  const [customValue, setCustomValue] = useState('');
 
-  const enableCustom = (e: React.FormEvent<HTMLInputElement>) => {
+  // Ref
+  const inputCustomRef = useRef<HTMLInputElement>(null);
+
+  const updateValue = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
 
     if (Number(value) < 1 && value !== '') {
       setError(`Can't be zero.`);
     } else if (!e.currentTarget.validity.valid) {
       setError(e.currentTarget.validationMessage);
+    } else if (/^0+/.test(value) && Number(value) > 0) {
+      setError(null);
+      e.currentTarget.value = value.replace(/^0+/, '');
     } else {
       setError(null);
     }
 
-    setValue(id, value);
-  };
-
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-
-    if (Number(value) < 1 && value !== '') {
-      setError(`Can't be zero.`);
-    } else if (!e.currentTarget.validity.valid) {
-      setError(e.currentTarget.validationMessage);
-    } else {
-      setError(null);
-    }
-
-    setCustomValue(value);
     setValue(id, value);
   };
 
@@ -182,7 +172,9 @@ function RadioInputGroup({
   useEffect(() => {
     if (value === '') {
       setError(null);
-      setCustomValue('');
+      if (inputCustomRef.current !== null) {
+        inputCustomRef.current.value = '';
+      }
     }
   }, [value]);
 
@@ -196,7 +188,9 @@ function RadioInputGroup({
       value === '25' ||
       value === '50'
     ) {
-      setCustomValue('');
+      if (inputCustomRef.current !== null) {
+        inputCustomRef.current.value = '';
+      }
       setValue(id, value);
     }
   };
@@ -276,11 +270,11 @@ function RadioInputGroup({
               min={1}
               step={0.01}
               max={maximum}
-              onClick={enableCustom}
-              onChange={handleChange}
-              value={customValue}
+              onClick={updateValue}
+              onChange={updateValue}
               onBlur={handleBlur}
               onKeyPress={handleKeyPress}
+              ref={inputCustomRef}
             />
           </LabelCustomInput>
         </RadioBox>

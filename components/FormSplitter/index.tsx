@@ -163,7 +163,7 @@ function FormSplitter() {
           id="bill"
           labelText="Bill"
           placeholder="0"
-          minimum={0}
+          minimum={1}
           maximum={9999}
           step={0.01}
           type="number"
