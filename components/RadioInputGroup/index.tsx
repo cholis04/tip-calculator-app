@@ -163,6 +163,13 @@ function RadioInputGroup({
     setValue(id, value);
   };
 
+  // Prevent e,+,_,.
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === ',') {
+      e.preventDefault();
+    }
+  };
+
   // On Radio Button Change
   const onRadioChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -273,6 +280,7 @@ function RadioInputGroup({
               onChange={handleChange}
               value={customValue}
               onBlur={handleBlur}
+              onKeyPress={handleKeyPress}
             />
           </LabelCustomInput>
         </RadioBox>

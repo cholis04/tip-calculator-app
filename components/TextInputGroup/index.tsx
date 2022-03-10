@@ -109,6 +109,13 @@ function TextInputGroup({
     setValue(id, value);
   };
 
+  // Prevent e,+,_,.
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === ',') {
+      e.preventDefault();
+    }
+  };
+
   // Track Value when Claar / Reset
   useEffect(() => {
     if (value === '') {
@@ -132,6 +139,7 @@ function TextInputGroup({
         value={value}
         onChange={handleChange}
         step={step}
+        onKeyPress={handleKeyPress}
       />
     </InputGroup>
   );

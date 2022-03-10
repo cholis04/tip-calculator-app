@@ -128,12 +128,19 @@ function FormSplitter() {
   // Track Amount Bill and Tip
   useEffect(() => {
     if (bill && tip && numpeople) {
-      const FixBill = Number(bill.slice(0, 4));
-      const FixTip = Number(tip.slice(0, 4));
-      const FixNumpeople = Number(numpeople.slice(0, 2));
+      const FixBill = Number(bill);
+      const FixTip = Number(tip);
+      const FixNumpeople = Number(numpeople);
       const total = FixBill + FixBill * (FixTip / 100);
 
-      if (FixBill <= 9999 && FixTip <= 199 && FixNumpeople <= 99) {
+      const noZeroValues = FixBill > 0 && FixTip > 0 && FixNumpeople > 0;
+
+      if (
+        FixBill <= 9999 &&
+        FixTip <= 199 &&
+        FixNumpeople <= 99 &&
+        noZeroValues
+      ) {
         setAmountBill(total / FixNumpeople);
         setAmountTip((FixBill * (FixTip / 100)) / FixNumpeople);
       }

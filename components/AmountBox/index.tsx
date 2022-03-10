@@ -75,7 +75,7 @@ function AmountBox({ amountTip, titleComponent }: propType) {
         <DetailName>{titleComponent}</DetailName>
         <DetailPer>/ person</DetailPer>
       </DetailAmount>
-      <TotalAmount title={`${titleComponent} / person`}>
+      <TotalAmount title={`${titleComponent} / person`} tabIndex={0}>
         {formatCurrency(amountTip)}
       </TotalAmount>
     </AmountBoxStyled>

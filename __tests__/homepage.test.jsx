@@ -129,8 +129,8 @@ describe('Home Page', () => {
     fireEvent.click(labelRadio15Persen);
     fireEvent.change(inputNumPeople, {target: {value: '5'}})
 
-    expect(AmountTip.textContent).toBe('$4.26');
-    expect(AmountBill.textContent).toBe('$32.66');
+    expect(AmountTip.textContent).toBe('$4.28');
+    expect(AmountBill.textContent).toBe('$32.79');
 
   })
 
