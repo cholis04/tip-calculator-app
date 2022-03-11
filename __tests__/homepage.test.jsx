@@ -84,8 +84,8 @@ describe('Home Page', () => {
     const inputBill = getByLabelText('Bill');
     const labelRadio25Persen = getByLabelText('25%');
 
-    const AmountTip = getByTitle('Tip Amount / person');
-    const AmountBill = getByTitle('Total / person');
+    const AmountTip = getByTitle(/Tip Amount \/ person/i);
+    const AmountBill = getByTitle(/Total \/ person/i);
 
     fireEvent.change(inputBill, {target: {value: '250'}});
     fireEvent.click(labelRadio25Persen);
@@ -103,8 +103,8 @@ describe('Home Page', () => {
     const inputBill = getByLabelText('Bill');
     const labelRadio5Persen = getByLabelText('5%');
 
-    const AmountTip = getByTitle('Tip Amount / person');
-    const AmountBill = getByTitle('Total / person');
+    const AmountTip = getByTitle(/Tip Amount \/ person/i);
+    const AmountBill = getByTitle(/Total \/ person/i);
 
     fireEvent.change(inputBill, {target: {value: '10'}})
     fireEvent.click(labelRadio5Persen);
@@ -122,8 +122,8 @@ describe('Home Page', () => {
     const inputBill = getByLabelText('Bill');
     const labelRadio15Persen = getByLabelText('15%');
 
-    const AmountTip = getByTitle('Tip Amount / person');
-    const AmountBill = getByTitle('Total / person');
+    const AmountTip = getByTitle(/Tip Amount \/ person/i);
+    const AmountBill = getByTitle(/Total \/ person/i);
 
     fireEvent.change(inputBill, {target: {value: '142.55'}})
     fireEvent.click(labelRadio15Persen);

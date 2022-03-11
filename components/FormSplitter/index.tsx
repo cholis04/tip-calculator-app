@@ -103,9 +103,8 @@ function FormSplitter() {
   const [amountBill, setAmountBill] = useState(0);
 
   // Set Maximum Values
-  const maxBill = 999999;
-  const maxTip = 499;
-  const maxPeople = 99;
+  const maxTip = 500;
+  const maxPeople = 1000000;
 
   const inputChange = useCallback((prop: string, value: string) => {
     switch (prop) {
@@ -140,12 +139,7 @@ function FormSplitter() {
 
       const noZeroValues = FixBill > 0 && FixTip > 0 && FixNumpeople > 0;
 
-      if (
-        FixBill <= maxBill &&
-        FixTip <= maxTip &&
-        FixNumpeople <= maxPeople &&
-        noZeroValues
-      ) {
+      if (FixTip <= maxTip && FixNumpeople <= maxPeople && noZeroValues) {
         setAmountBill(total / FixNumpeople);
         setAmountTip((FixBill * (FixTip / 100)) / FixNumpeople);
       }
@@ -169,7 +163,6 @@ function FormSplitter() {
           labelText="Bill"
           placeholder="0"
           minimum={1}
-          maximum={maxBill}
           step={0.01}
           type="number"
           icon="dollar"
@@ -198,8 +191,8 @@ function FormSplitter() {
         />
       </FormInputArea>
       <ResultBox>
-        <AmountBox amountTip={amountTip} titleComponent="Tip Amount" />
-        <AmountBox amountTip={amountBill} titleComponent="Total" />
+        <AmountBox amount={amountTip} titleComponent="Tip Amount" />
+        <AmountBox amount={amountBill} titleComponent="Total" />
         <ResetButton type="reset" value="Reset" disabled={resetDisabled} />
       </ResultBox>
     </FormTip>

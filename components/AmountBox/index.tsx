@@ -12,6 +12,7 @@ const AmountBoxStyled = styled.div`
 
 const DetailAmount = styled.div`
   font-size: 24px;
+  margin-right: 1rem;
 `;
 
 const DetailName = styled.p`
@@ -55,16 +56,17 @@ const TotalAmount = styled.p`
 `;
 
 interface propType {
-  amountTip: number;
+  amount: number;
   titleComponent: string;
 }
 
 // Main Component
-function AmountBox({ amountTip, titleComponent }: propType) {
+function AmountBox({ amount, titleComponent }: propType) {
   const formatCurrency = (amount: number) => {
     const formater = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
+      minimumFractionDigits: 2,
     });
     return formater.format(amount);
   };
@@ -75,8 +77,13 @@ function AmountBox({ amountTip, titleComponent }: propType) {
         <DetailName>{titleComponent}</DetailName>
         <DetailPer>/ person</DetailPer>
       </DetailAmount>
-      <TotalAmount title={`${titleComponent} / person`} tabIndex={0}>
-        {formatCurrency(amountTip)}
+      <TotalAmount
+        title={`${titleComponent} / person : ${formatCurrency(amount)}`}
+        tabIndex={0}
+      >
+        {amount >= 999999
+          ? '$' + amount.toExponential(4)
+          : formatCurrency(amount)}
       </TotalAmount>
     </AmountBoxStyled>
   );

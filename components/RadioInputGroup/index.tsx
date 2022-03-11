@@ -281,6 +281,7 @@ function RadioInputGroup({
               max={maximum}
               onClick={updateValue}
               onChange={updateValue}
+              onInput={updateValue}
               onBlur={handleBlur}
               onKeyPress={handleKeyPress}
               ref={inputCustomRef}

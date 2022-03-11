@@ -147,6 +147,7 @@ function TextInputGroup({
         min={minimum}
         max={maximum}
         onChange={handleChange}
+        onInput={handleChange}
         step={step}
         onKeyPress={handleKeyPress}
       />
