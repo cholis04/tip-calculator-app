@@ -11,12 +11,17 @@ This is a solution to the [Tip calculator app challenge on Frontend Mentor](http
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
+    - [Format Number as Currency](#format-number-as-currency)
+    - [Icon inside an Input Element](#icon-inside-an-input-element)
   - [Continued development](#continued-development)
+    - [Remove Leading Zero](#remove-leading-zero)
+    - [Prevent characters other than numbers](#prevent-characters-other-than-numbers)
+    - [Maximum Value for Tip and Number of people](#maximum-value-for-tip-and-number-of-people)
+    - [Auto tick when have same value on manual tip](#auto-tick-when-have-same-value-on-manual-tip)
+    - [Amount to Exponential when the result is much larger](#amount-to-exponential-when-the-result-is-much-larger)
   - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -30,20 +35,11 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+![Preview App](./screenshots/Frontend_Mentor_tip_calculator_app_preview.gif)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [https://tip-calculator-app-one-rho.vercel.app/](https://tip-calculator-app-one-rho.vercel.app/)
 
 ## My process
 
@@ -53,99 +49,141 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - CSS custom properties
 - Flexbox
 - CSS Grid
-- Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- [Fontsource](https://fontsource.org/) - Self-host Open Source fonts
+- [JEST](https://jestjs.io/) - For testing
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### Format Number as Currency
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+Displays the calculation results in the form of currency. Create a currency format by using the built-in function **Intl.NumberFormat**.
 
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉');
+const formatCurrency = (amount: number) => {
+  const formater = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  return formater.format(amount);
 };
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+#### Icon inside an Input Element
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+Without having to add any extra elements, I gave the icon the text itself. By adding **background-image** property in css. Then set the position of the icon to match by using the **background-position** property.
+
+```css
+.input-text {
+  background-image: url('./icon-dollar.svg');
+  background-repeat: no-repeat;
+  background-position: 0.6em 50%;
+
+  /* Icon Area */
+  padding-left: 1.8em;
+}
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+#### Remove Leading Zero
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+![Remove Leading Zero](./screenshots/Frontend_Mentor_Tip_calculator_app_Remove_Leading_Zero.gif)
+
+The leading 0 has **no effect** on the calculation at all. And the number of leading 0's can sometimes be confusing. I prefer to **automatically eliminate** the number if it is in front of other numbers.
+
+I did a pattern matching **regex** that contains leading 0. Then replace it with empty text.
+
+```js
+if (/^0+/.test(value)) {
+  e.currentTarget.value = value.replace(/^0+/, '');
+}
+```
+
+#### Prevent characters other than numbers
+
+On the input element of the number type. User can enter characters like e, +, -. To avoid unwanted errors. I prevent users from doing that. I put a function on the **onKeyPress** attribute.
+
+```js
+const preventKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === ',') {
+    e.preventDefault();
+  }
+
+  // Prevent char . on first type
+  if (e.currentTarget.value === '' || e.currentTarget.valueAsNumber === 0) {
+    if (e.key === '.') {
+      e.preventDefault();
+    }
+  }
+};
+```
+
+#### Maximum Value for Tip and Number of people
+
+So that the calculations are not too many and become **infinity**, I limit the input that the user can make.
+
+```js
+<InputText max={maximum} />
+```
+
+#### Auto tick when have same value on manual tip
+
+![Auto Tick](./screenshots/Frontend_Mentor_Tip_calculator_app_Auto_Checked.gif)
+
+If the **user's custom input** has the same value as **the registered radio button**. Then the custom input will be **removed** and the Radio button having the same value will be **checked automatically**.
+
+```js
+// Empty Custom input if has a same value
+const handleBlur = (e: React.FormEvent<HTMLInputElement>) => {
+  const value = e.currentTarget.value;
+  if (
+    value === '5' ||
+    value === '10' ||
+    value === '15' ||
+    value === '25' ||
+    value === '50'
+  ) {
+    if (inputCustomRef.current !== null) {
+      inputCustomRef.current.value = '';
+    }
+    setValue(id, value);
+  }
+};
+```
+
+#### Amount to Exponential when the result is much larger
+
+![Amount to Exponential](./screenshots/Frontend_Mentor_Tip_calculator_app_Exponential.gif)
+
+Same as before. So that the results of the calculations are not **too long** and become **infinity** which causes the display to be damaged. So when the calculation value exceeds a certain limit it will be displayed in **exponential form**.
+
+But the user can still see the complete calculation result on the **title** attribute.
+
+```js
+<TotalAmount title={`${titleComponent} / person : ${formatCurrency(amount)}`}>
+  {amount >= 999999 ? '$' + amount.toExponential(4) : formatCurrency(amount)}
+</TotalAmount>
+```
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- [https://www.w3.org/TR/2016/WD-wai-aria-practices-1.1-20160317/examples/radio/radio.html](https://www.w3.org/TR/2016/WD-wai-aria-practices-1.1-20160317/examples/radio/radio.html)
+- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat)
+- [https://masteringjs.io/tutorials/fundamentals/trim-leading-zeros](https://masteringjs.io/tutorials/fundamentals/trim-leading-zeros)
+- [https://www.w3schools.com/jsref/jsref_toexponential.asp](https://www.w3schools.com/jsref/jsref_toexponential.asp)
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
+- Website - [https://cholis04.github.io](https://cholis04.github.io)
+- Frontend Mentor - [@cholis04](https://www.frontendmentor.io/profile/cholis04)
+- Dribbble - [cholis04](https://dribbble.com/cholis04)
+- Instagram - [@cholis04](https://instagram.com/cholis04)
+- Codepen - [cholis04](https://codepen.io/cholis04)
 
 ## Acknowledgments
 
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
-
-<hr/>
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Many thanks to anyone who provided feedback.

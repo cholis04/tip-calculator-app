@@ -134,6 +134,25 @@ describe('Home Page', () => {
 
   })
 
+  it('split billing calculation IV to Exponantial', () => {
+    const {getByLabelText, getByTitle} = render(<Home />);
+
+    const inputNumPeople = getByLabelText('Number Of People');
+    const inputBill = getByLabelText('Bill');
+    const labelRadio15Persen = getByLabelText('25%');
+
+    const AmountTip = getByTitle(/Tip Amount \/ person/i);
+    const AmountBill = getByTitle(/Total \/ person/i);
+
+    fireEvent.change(inputBill, {target: {value: '123456789'}})
+    fireEvent.click(labelRadio15Persen);
+    fireEvent.change(inputNumPeople, {target: {value: '4'}})
+
+    expect(AmountTip.textContent).toBe('$7.7160e+6');
+    expect(AmountBill.textContent).toBe('$3.8580e+7');
+
+  })
+
   it('reset all input value and disabled reset button', () => {
     const {getByLabelText, getByText} = render(<Home />);
 
