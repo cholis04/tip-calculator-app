@@ -158,6 +158,13 @@ function RadioInputGroup({
     if (e.key === '-' || e.key === 'e' || e.key === '+' || e.key === ',') {
       e.preventDefault();
     }
+
+    // Prevent char . on first type
+    if (e.currentTarget.value === '' || e.currentTarget.valueAsNumber === 0) {
+      if (e.key === '.') {
+        e.preventDefault();
+      }
+    }
   };
 
   // On Radio Button Change
