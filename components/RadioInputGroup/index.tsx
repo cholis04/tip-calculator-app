@@ -74,6 +74,7 @@ const CustomInput = styled.input`
   font-weight: 700;
   border-radius: 4px;
   padding: 0 0.8em;
+  -moz-appearance: textfield;
   outline: none;
   width: 100%;
   height: 100%;
