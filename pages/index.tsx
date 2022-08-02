@@ -17,13 +17,6 @@ const MainStyled = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  /* Desktop */
-  @media only screen and (min-width: 680px) {
-    & {
-      margin-top: 4.7rem;
-    }
-  }
 `;
 
 const BoxStyled = styled.div`
