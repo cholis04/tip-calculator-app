@@ -13,6 +13,7 @@ const SelectGroup = styled.div`
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
+      margin-top: 0.6rem;
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -30,7 +31,7 @@ const LabelRadio = styled.label`
   background-color: hsl(183, 100%, 15%);
   color: hsl(0, 0%, 100%);
   font-size: 24px;
-  padding: 0.3em 1em;
+  padding: 0.28em 1em;
   font-weight: 700;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;

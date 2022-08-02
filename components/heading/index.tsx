@@ -12,7 +12,11 @@ const HeadingLogo = styled.h1`
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
-      margin-top: 2rem;
+      margin-top: 3rem;
+      font-size: 1.42em;
+      padding-left: 0.8rem;
+      line-height: 1.6;
+      letter-spacing: 0.45em;
     }
   }
 `;

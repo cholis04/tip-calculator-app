@@ -14,7 +14,7 @@ const FormTip = styled.form`
   @media only screen and (min-width: 680px) {
     & {
       grid-template-columns: 1fr 1fr;
-      column-gap: 2em;
+      column-gap: 2.3em;
     }
   }
 `;
@@ -25,7 +25,8 @@ const FormInputArea = styled.div`
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
-      padding: 0.8em;
+      border: 1px solid blue;
+      padding: 1.2em 0.7em;
     }
   }
 `;
@@ -179,7 +180,7 @@ function FormSplitter() {
         />
         <TextInputGroup
           id="numpeople"
-          labelText="Number Of People"
+          labelText="Number of People"
           placeholder="0"
           type="number"
           minimum={1}

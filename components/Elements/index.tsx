@@ -17,7 +17,7 @@ export const InputGroup = styled.div`
     }
 
     &:nth-child(2) {
-      margin: 2.4rem auto;
+      margin: 2.2rem auto;
     }
   }
 `;

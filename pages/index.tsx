@@ -17,6 +17,13 @@ const MainStyled = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  /* Desktop */
+  @media only screen and (min-width: 680px) {
+    & {
+      margin-top: 4.7rem;
+    }
+  }
 `;
 
 const BoxStyled = styled.div`
@@ -33,7 +40,8 @@ const BoxStyled = styled.div`
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
-      margin-top: 4.6rem;
+      margin-top: 5rem;
+      padding: 1.9em 2.2em;
     }
   }
 `;

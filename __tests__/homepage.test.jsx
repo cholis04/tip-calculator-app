@@ -43,7 +43,7 @@ describe('Home Page', () => {
   it('input text num of people then enable reset button', () => {
     const {getByLabelText, getByText} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const resetButton = getByText(/reset/i);
 
     fireEvent.change(inputNumPeople, {target: {value: '2'}})
@@ -53,7 +53,7 @@ describe('Home Page', () => {
 
   it('input num of people with < 0 value display error message', () => {
     const {getByLabelText, getByRole} = render(<Home />);
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     
     fireEvent.change(inputNumPeople, {target: {value: '-10'}})
     
@@ -80,7 +80,7 @@ describe('Home Page', () => {
   it('split billing calculation I', () => {
     const {getByLabelText, getByTitle} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio25Persen = getByLabelText('25%');
 
@@ -99,7 +99,7 @@ describe('Home Page', () => {
   it('split billing calculation II', () => {
     const {getByLabelText, getByTitle} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio5Persen = getByLabelText('5%');
 
@@ -118,7 +118,7 @@ describe('Home Page', () => {
   it('split billing calculation III', () => {
     const {getByLabelText, getByTitle} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio15Persen = getByLabelText('15%');
 
@@ -137,7 +137,7 @@ describe('Home Page', () => {
   it('split billing calculation IV to Exponantial', () => {
     const {getByLabelText, getByTitle} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio15Persen = getByLabelText('25%');
 
@@ -156,7 +156,7 @@ describe('Home Page', () => {
   it('reset all input value and disabled reset button', () => {
     const {getByLabelText, getByText} = render(<Home />);
 
-    const inputNumPeople = getByLabelText('Number Of People');
+    const inputNumPeople = getByLabelText('Number of People');
     const inputBill = getByLabelText('Bill');
     const labelRadio5Persen = getByLabelText('5%');
     const resetButton = getByText(/reset/i);

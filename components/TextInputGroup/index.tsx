@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 // Elements
@@ -11,7 +11,7 @@ interface inputProps {
 // Styled Components
 const InputText = styled.input<inputProps>`
   font-size: 24px;
-  padding: 0.2em 0.6em;
+  padding: 0.1em 0.6em;
   padding-left: 1.8em;
   width: 100%;
   font-family: 'Space Mono';
