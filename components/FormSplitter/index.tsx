@@ -25,7 +25,6 @@ const FormInputArea = styled.div`
   /* Desktop */
   @media only screen and (min-width: 680px) {
     & {
-      border: 1px solid blue;
       padding: 1.2em 0.7em;
     }
   }
